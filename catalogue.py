@@ -16,7 +16,16 @@ Programmation Orientée Objet - EICPN 2025-2026.
 
 from collections import defaultdict  # noqa: F401 (utile selon votre choix)
 
+from livre_s17 import Livre
 
+CATALOGUE = [
+Livre("1984", "Orwell", "9780451524935", 328, 1949),
+Livre("La Ferme des animaux", "Orwell", "9780141036137", 112, 1945),
+Livre("Le Meilleur des mondes", "Huxley", "9780060850524", 311, 1932),
+Livre("Fahrenheit 451", "Bradbury", "9781451673319", 256, 1953),
+]
+DOUBLON = Livre("1984 (réédition)", "Orwell", "9780451524935", 328, 1949)
+AVEC_DOUBLON = CATALOGUE + [DOUBLON]
 # ──────────────────────────────────────────────────────────────────────
 # 1. Tris
 # ──────────────────────────────────────────────────────────────────────
@@ -30,8 +39,7 @@ def trier_par_titre(livres):
     Returns:
         list: Une nouvelle liste triée (l'originale reste intacte).
     """
-    raise NotImplementedError("À compléter (voir énoncé TP, exercice 2).")
-
+    return sorted(livres, key=lambda l: l.titre)
 
 def trier_par_auteur_puis_titre(livres):
     """Trie par auteur, puis par titre à auteur égal.
@@ -42,8 +50,7 @@ def trier_par_auteur_puis_titre(livres):
     Returns:
         list: Une nouvelle liste triée.
     """
-    raise NotImplementedError("À compléter (voir énoncé TP, exercice 2).")
-
+    return sorted(livres, key=lambda l: (l.auteur, l.titre))
 
 def trier_par_annee(livres, recents_dabord=False):
     """Trie par année de publication.
@@ -55,7 +62,7 @@ def trier_par_annee(livres, recents_dabord=False):
     Returns:
         list: Une nouvelle liste triée.
     """
-    raise NotImplementedError("À compléter (voir énoncé TP, exercice 2).")
+    return sorted(livres, key=lambda l: l.titre, reverse=recents_dabord)
 
 
 def trier_par_auteur_puis_annee_recente(livres):
@@ -67,8 +74,7 @@ def trier_par_auteur_puis_annee_recente(livres):
     Returns:
         list: Une nouvelle liste triée.
     """
-    raise NotImplementedError("À compléter (voir énoncé TP, exercice 3).")
-
+    return sorted(livres, key=lambda l: (l.auteur, not l.titre))
 
 # ──────────────────────────────────────────────────────────────────────
 # 2. Recherches
@@ -84,8 +90,11 @@ def rechercher_par_auteur(livres, auteur):
     Returns:
         list: Les Livre correspondants (liste éventuellement vide).
     """
-    raise NotImplementedError("À compléter (voir énoncé TP, exercice 4).")
-
+    liste = []
+    for i in livres:
+        if i.auteur == auteur:
+            liste.append(i)
+    return liste
 
 def rechercher_par_isbn(livres, isbn):
     """Retrouve un livre par son ISBN en parcourant la liste.
@@ -97,8 +106,9 @@ def rechercher_par_isbn(livres, isbn):
     Returns:
         Livre: Le livre correspondant, ou None s'il est absent.
     """
-    raise NotImplementedError("À compléter (voir énoncé TP, exercice 4).")
-
+    for i in livres:
+        if i.isbn == isbn:
+            return i
 
 # ──────────────────────────────────────────────────────────────────────
 # 3. Ensembles
@@ -113,8 +123,7 @@ def compter_distincts(livres):
     Returns:
         int: Nombre de livres distincts.
     """
-    raise NotImplementedError("À compléter (voir énoncé TP, exercice 5).")
-
+    return len(set(livres))
 
 def dedoublonner(livres):
     """Supprime les doublons en conservant l'ordre de première apparition.
@@ -125,8 +134,12 @@ def dedoublonner(livres):
     Returns:
         list: Liste sans doublon, ordre de première apparition préservé.
     """
-    raise NotImplementedError("À compléter (voir énoncé TP, exercice 5).")
-
+    liste = []
+    
+    for i in livres:
+        if i not in liste:
+            liste.append(i)
+    return liste
 
 # ──────────────────────────────────────────────────────────────────────
 # 4. Dictionnaires
@@ -141,8 +154,10 @@ def indexer_par_isbn(livres):
     Returns:
         dict: Dictionnaire {isbn (str): livre (Livre)}.
     """
-    raise NotImplementedError("À compléter (voir énoncé TP, exercice 6).")
-
+    dic = {}
+    for i in livres:
+        dic[i.isbn] = i
+    return dic
 
 def regrouper_par_auteur(livres):
     """Regroupe les livres par auteur.
@@ -153,8 +168,10 @@ def regrouper_par_auteur(livres):
     Returns:
         dict: Dictionnaire {auteur (str): [Livre, ...]}.
     """
-    raise NotImplementedError("À compléter (voir énoncé TP, exercice 6).")
-
+    dic = {}
+    for i in livres:
+        dic.setdefault(i.auteur, []).append(i)
+    return dic
 
 if __name__ == "__main__":
     print("Squelette non implémenté : complétez les fonctions, "

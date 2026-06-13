@@ -1,25 +1,37 @@
 Réponses ouvertes - Atelier S17 (structures de données objet)
-Prénom NOM :
+Prénom NOM : François Bastin
 
 ================================================================
 Exercice 1 - Diagnostic du set
 ================================================================
 - Combien de livres ont été ajoutés ? Combien l'ensemble en garde-t-il ?
   Lequel a disparu ?
+
+  4 livres ont été rajoutés
+  Il y a seulement 3 livres conservés
+  La réédition à disparu
+
 - Pourquoi un set considère-t-il deux livres aux titres différents comme
   un seul et même livre ?
+
+Set utilise __eq__ et __hash__ qui se basent sur l'ISBN et non le titre du livre
+
 - Quelles méthodes de Livre sont en jeu ? Bug ou décision de conception ?
 
-[votre réponse ici]
+Les méthodes __eq__ et __hash__. Ce n'est pas un bug mais juste la concéquence d'une mauvaise décision de conception.
+Il aurait fallu vérifier l'égalité sur le titre pour que ce cas fonctionne correctement.
 
 
 ================================================================
 Exercice 3 - reverse vs négation
 ================================================================
 - Pourquoi reverse=True ne convient-il pas ici ?
+
+Le problème est que reverse=True va inverser l'ordre de l'auteur et de l'année.
+
 - Comment la négation du critère « année » résout-elle le problème ?
 
-[votre réponse ici]
+On va seulement inverser l'ordre des année grâce à la négation dans la clé.
 
 
 ================================================================
@@ -27,7 +39,14 @@ Exercice 5 - Dédoublonnage
 ================================================================
 - Pourquoi deux Livre de même ISBN sont-ils dédoublonnés alors que leurs
   titres diffèrent ?
+
+Dans classe Livre, la méthode __eq__ fait la comparaison entre les ISBN et non les titres.
+
 - Quelles méthodes de Livre rendent cela possible ?
+
+Il y a aucune méthode dans la classe tels qu'elle est actuellement pour différencier 2 livres qui
+ont le même ISBN.
+
 - Que se passerait-il si Livre ne les définissait pas ?
 
-[votre réponse ici]
+Si Livre ne définissait pas __eq__, on ne pourrait même pas les comparés avec les ISBN.
